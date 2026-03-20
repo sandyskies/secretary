@@ -1,0 +1,3 @@
+{"version":2,"width":120,"height":50,"timestamp":1773971946,"title":"Symphony session: SYM-4","env":{"SHELL":"/bin/bash","TERM":"xterm-256color"}}
+[0.000327225,"o","\u001b[90m09:59:06\u001b[0m \u001b[32m\u001b[1m▶ Session started\u001b[0m\u001b[2m backend=claude workspace=/root/code/symphony-workspaces/SYM-4\u001b[0m\r\n"]
+[7.819682486,"o","\u001b[90m09:59:14\u001b[0m \u001b[35m⚙ System initializing\u001b[0m\r\n"]
