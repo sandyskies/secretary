@@ -41,3 +41,7 @@
 [85.868426585,"o","\u001b[90m11:03:13\u001b[0m \u001b[34m💬 tool_use: Bash\u001b[0m\r\n"]
 [87.064268019,"o","\u001b[90m11:03:14\u001b[0m \u001b[2m  ← tool_result\u001b[0m\r\n"]
 [89.898309769,"o","\u001b[90m11:03:17\u001b[0m \u001b[34m💬 tool_use: Bash\u001b[0m\r\n"]
+[90.045274319,"o","\u001b[90m11:03:17\u001b[0m \u001b[2m  ← tool_result\u001b[0m\r\n"]
+[91.253253811,"o","\u001b[90m11:03:19\u001b[0m \u001b[34m💬 Turn 4 session tracked (commit `a78621b`). Orchestrator test progressing at 4/20.\u001b[0m\r\n"]
+[91.303878219,"o","\u001b[90m11:03:19\u001b[0m \u001b[32m✓ Turn completed (tokens: in=316082 out=2115)\u001b[0m\r\n"]
+[91.303955811,"o","\r\n\u001b[1m────────────────────────────────────────────────────────────\u001b[0m\r\n\u001b[1m  Symphony Session Summary\u001b[0m\r\n\u001b[1m────────────────────────────────────────────────────────────\u001b[0m\r\n  Issue:    SYM-4\r\n  Status:   \u001b[32m✅ Success\u001b[0m\r\n  Duration: 1m 31s\r\n  Turns:    4\r\n  Events:   45\r\n  Tokens:   in=316082 out=2115 total=318197\r\n\u001b[1m────────────────────────────────────────────────────────────\u001b[0m\r\n"]
