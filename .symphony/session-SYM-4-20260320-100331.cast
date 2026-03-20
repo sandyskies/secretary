@@ -1,0 +1,6 @@
+{"version":2,"width":120,"height":50,"timestamp":1773972211,"title":"Symphony session: SYM-4","env":{"SHELL":"/bin/bash","TERM":"xterm-256color"}}
+[0.000130641,"o","\u001b[90m10:03:31\u001b[0m \u001b[32m\u001b[1m▶ Session started\u001b[0m\u001b[2m backend=claude workspace=/root/code/symphony-workspaces/SYM-4\u001b[0m\r\n"]
+[8.134101828,"o","\u001b[90m10:03:39\u001b[0m \u001b[35m⚙ System initializing\u001b[0m\r\n"]
+[23.220993264,"o","\u001b[90m10:03:55\u001b[0m \u001b[34m💬 API Error: 400 {\"error\":{\"type\":\"ApiError\",\"message\":\"触发服务限流，请稍后再试 欢迎加...\u001b[0m\r\n"]
+[23.256737644,"o","\u001b[90m10:03:55\u001b[0m \u001b[31m✗ Turn failed: turn failed: API Error: 400 {\"error\":{\"type\":\"ApiError\",\"message\":\"触发服务\ufffd...\u001b[0m\r\n"]
+[23.25688772,"o","\r\n\u001b[1m────────────────────────────────────────────────────────────\u001b[0m\r\n\u001b[1m  Symphony Session Summary\u001b[0m\r\n\u001b[1m────────────────────────────────────────────────────────────\u001b[0m\r\n  Issue:    SYM-4\r\n  Status:   \u001b[31m❌ Failed: turn 1 failed: turn failed: API Error: 400 {\"error\":{\"type\":...\u001b[0m\r\n  Duration: 23s\r\n  Turns:    1\r\n  Events:   4\r\n  Tokens:   in=0 out=0 total=0\r\n\u001b[1m────────────────────────────────────────────────────────────\u001b[0m\r\n"]
