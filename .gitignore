@@ -1,0 +1,25 @@
+# Symphony session files
+.symphony/
+*.symphony
+
+# Node modules
+node_modules/
+Secretary/node_modules/
+
+# Build outputs
+dist/
+build/
+Secretary/dist/
+Secretary/build/
+
+# Environment files
+.env
+.env.local
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

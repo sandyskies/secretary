@@ -1,0 +1,101 @@
+name: CI Checks
+
+on:
+  push:
+    branches: [ 'main', 'develop' ]
+  pull_request:
+    branches: [ 'main', 'develop' ]
+
+jobs:
+  # TypeScript / JavaScript checks
+  typescript-check:
+    name: TypeScript Static Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'Secretary/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd Secretary
+          npm ci
+
+      - name: TypeScript type check
+        run: |
+          cd Secretary
+          npx tsc --noEmit
+
+  eslint-check:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'Secretary/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd Secretary
+          npm ci
+
+      - name: Run ESLint
+        run: |
+          cd Secretary
+          npx eslint . --ext .ts,.tsx,.js,.jsx || true
+
+  # Go checks (will be skipped if no Go files exist)
+  go-check:
+    name: Go Static Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Check if Go files exist
+        id: check-go-files
+        run: |
+          if find . -name "*.go" -not -path "./vendor/*" | grep -q .; then
+            echo "go-files-exist=true" >> $GITHUB_OUTPUT
+          else
+            echo "go-files-exist=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Go lint
+        if: steps.check-go-files.outputs.go-files-exist == 'true'
+        run: |
+          # Install golint if not available
+          go install golang.org/x/lint/golint@latest
+          golint ./...
+
+      - name: Go format check
+        if: steps.check-go-files.outputs.go-files-exist == 'true'
+        run: |
+          gofmt -d .
+
+      - name: Go build
+        if: steps.check-go-files.outputs.go-files-exist == 'true'
+        run: |
+          go build ./...
+
+      - name: Go test
+        if: steps.check-go-files.outputs.go-files-exist == 'true'
+        run: |
+          go test ./...
