@@ -1,0 +1,134 @@
+name: CI Checks
+
+on:
+  push:
+    branches: [ 'main', 'develop' ]
+  pull_request:
+    branches: [ 'main', 'develop' ]
+
+jobs:
+  # TypeScript / JavaScript checks
+  typescript-check:
+    name: TypeScript Static Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'Secretary/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd Secretary
+          npm ci
+
+      - name: TypeScript type check
+        run: |
+          cd Secretary
+          npx tsc --noEmit
+
+  eslint-check:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'Secretary/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd Secretary
+          npm ci
+
+      - name: Run ESLint
+        run: |
+          cd Secretary
+          npx eslint . --ext .ts,.tsx,.js,.jsx || true
+
+  # Go checks (will be skipped if no Go files exist)
+  go-check:
+    name: Go Static Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Check for Go files
+        id: go-check
+        run: |
+          if find . -name "*.go" | grep -q .; then
+            echo "has_go_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_go_files=false" >> $GITHUB_OUTPUT
+            echo "No Go files found, skipping Go checks"
+          fi
+
+      - name: Run gofmt
+        if: steps.go-check.outputs.has_go_files == 'true'
+        run: |
+          gofmt -l . | xargs -r test -z \
+            || (echo "Go files must be formatted with gofmt" && exit 1)
+
+      - name: go vet
+        if: steps.go-check.outputs.has_go_files == 'true'
+        run: go vet ./...
+
+      - name: go build
+        if: steps.go-check.outputs.has_go_files == 'true'
+        run: go build ./...
+
+      - name: go test
+        if: steps.go-check.outputs.has_go_files == 'true'
+        run: go test -v -race -coverprofile=coverage.txt ./...
+
+      - name: Upload coverage
+        if: steps.go-check.outputs.has_go_files == 'true'
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.txt
+          fail_ci_if_error: false
+
+  # golangci-lint
+  golangci-lint:
+    name: golangci-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Check for Go files
+        id: go-check
+        run: |
+          if find . -name "*.go" | grep -q .; then
+            echo "has_go_files=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_go_files=false" >> $GITHUB_OUTPUT
+            echo "No Go files found, skipping golangci-lint"
+          fi
+
+      - name: golangci-lint
+        if: steps.go-check.outputs.has_go_files == 'true'
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: latest
