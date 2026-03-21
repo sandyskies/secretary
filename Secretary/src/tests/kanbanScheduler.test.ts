@@ -1,7 +1,7 @@
 import { KanbanScheduler, KanbanTask } from '../services/kanbanScheduler';
 
 /**
- * Kanban调度测试v3
+ * Kanban调度测试v4
  *
  * 这个测试文件验证Kanban调度器的核心功能，用于测试orchestrator的调度能力
  */
