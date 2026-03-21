@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'Secretary/package-lock.json'
+
+      - name: Install dependencies
+        working-directory: ./Secretary
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: ./Secretary
+        run: npm run lint
+
+  typescript:
+    name: TypeScript Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'Secretary/package-lock.json'
+
+      - name: Install dependencies
+        working-directory: ./Secretary
+        run: npm ci
+
+      - name: Run TypeScript type check
+        working-directory: ./Secretary
+        run: npm run type-check
+
+  # Go checks - reserved for future use
+  go-checks:
+    name: Go Checks (Reserved)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Action skipped
+        run: |
+          echo "Go checks (golint, gofmt, go build, go test) are reserved for future use."
+          echo "No Go code currently exists in this repository."
+
+      # Uncomment when Go code is added:
+      # - name: Setup Go
+      #   uses: actions/setup-go@v5
+      #   with:
+      #     go-version: '1.21'
+
+      # - name: Install golint
+      #   run: go install golang.org/x/lint/golint@latest
+
+      # - name: Run golint
+      #   run: golint ./...
+
+      # - name: Run gofmt
+      #   run: |
+      #     if [ -n "$(gofmt -l .)" ]; then
+      #       echo "The following files need to be formatted:"
+      #       gofmt -l .
+      #       exit 1
+      #     fi
+
+      # - name: Run go build
+      #   run: go build ./...
+
+      # - name: Run go test
+      #   run: go test -v ./...
