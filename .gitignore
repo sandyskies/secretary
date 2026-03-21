@@ -1,0 +1,5 @@
+# Symphony session files
+.symphony/
+
+# Node modules
+node_modules/
