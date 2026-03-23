@@ -1,5 +1,5 @@
-import Audio from 'expo-av';
-import * as FileSystem from 'expo-file-system';
+import { Audio } from "expo-av";
+import * as FileSystem from "expo-file-system";
 
 export class VoiceService {
   private recording: Audio.Recording | null = null;
@@ -14,25 +14,25 @@ export class VoiceService {
   async startRecording(): Promise<void> {
     await this.setupAudio();
     const { status } = await Audio.requestPermissionsAsync();
-    if (status !== 'granted') {
-      throw new Error('Permission to record audio not granted');
+    if (status !== "granted") {
+      throw new Error("Permission to record audio not granted");
     }
 
     this.recording = new Audio.Recording();
     try {
       await this.recording.prepareToRecordAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY
+        Audio.RecordingOptionsPresets.HIGH_QUALITY,
       );
       await this.recording.startAsync();
     } catch (error) {
-      console.error('Failed to start recording:', error);
+      console.error("Failed to start recording:", error);
       throw error;
     }
   }
 
   async stopRecording(): Promise<string> {
     if (!this.recording) {
-      throw new Error('No recording in progress');
+      throw new Error("No recording in progress");
     }
 
     await this.recording.stopAndUnloadAsync();
@@ -40,12 +40,12 @@ export class VoiceService {
     this.recording = null;
 
     if (!uri) {
-      throw new Error('Recording failed to save');
+      throw new Error("Recording failed to save");
     }
 
     // Read audio file and convert to base64 for API
     const base64 = await FileSystem.readAsStringAsync(uri, {
-      encoding: FileSystem.EncodingType.Base64,
+      encoding: "base64",
     });
 
     // Clean up the temp file

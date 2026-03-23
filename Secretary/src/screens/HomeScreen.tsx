@@ -1,41 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { VoiceParser } from '../services/voiceParser';
-import { EventStorage } from '../services/eventStorage';
-import { BabyEvent, EventType } from '../types/events';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { VoiceParser } from "../services/voiceParser";
+import { EventStorage } from "../services/eventStorage";
+import { BabyEvent, EventType } from "../types/events";
 
 const EVENT_ICONS: Record<EventType, string> = {
-  feeding: '🍼',
-  bath: '🛁',
-  poop: '💩',
-  pee: '💧',
-  diaperChange: '👶',
-  sleep: '😴',
-  medication: '💊',
-  note: '📝',
+  feeding: "🍼",
+  bath: "🛁",
+  poop: "💩",
+  pee: "💧",
+  diaperChange: "👶",
+  sleep: "😴",
+  medication: "💊",
+  note: "📝",
 };
 
 const EVENT_NAMES: Record<EventType, string> = {
-  feeding: '喝奶',
-  bath: '洗澡',
-  poop: '拉屎',
-  pee: '拉尿',
-  diaperChange: '换尿布',
-  sleep: '睡觉',
-  medication: '吃药',
-  note: '备注',
+  feeding: "喝奶",
+  bath: "洗澡",
+  poop: "拉屎",
+  pee: "拉尿",
+  diaperChange: "换尿布",
+  sleep: "睡觉",
+  medication: "吃药",
+  note: "备注",
 };
 
 export function HomeScreen({ navigation }: any) {
   const [recentEvents, setRecentEvents] = useState<BabyEvent[]>([]);
-  const [lastVoiceText, setLastVoiceText] = useState('');
+  const [lastVoiceText, setLastVoiceText] = useState("");
 
   useEffect(() => {
     loadRecentEvents();
@@ -47,7 +47,7 @@ export function HomeScreen({ navigation }: any) {
     setRecentEvents(events.reverse().slice(0, 5));
   };
 
-  const handleRecordingComplete = async (text: string) => {
+  const _handleRecordingComplete = async (text: string) => {
     setLastVoiceText(text);
 
     const parsed = VoiceParser.parse(text);
@@ -67,9 +67,9 @@ export function HomeScreen({ navigation }: any) {
   };
 
   const formatTime = (date: Date) => {
-    return new Date(date).toLocaleTimeString('zh-CN', {
-      hour: '2-digit',
-      minute: '2-digit',
+    return new Date(date).toLocaleTimeString("zh-CN", {
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -79,12 +79,12 @@ export function HomeScreen({ navigation }: any) {
         <Text style={styles.headerTitle}>宝宝护理助手</Text>
         <View style={styles.headerButtons}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('VoiceInput')}
+            onPress={() => navigation.navigate("VoiceInput")}
             style={styles.headerButton}
           >
             <Text style={styles.headerButtonText}>🎙️ 记录</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
+          <TouchableOpacity onPress={() => navigation.navigate("Calendar")}>
             <Text style={styles.calendarButton}>📅 日历</Text>
           </TouchableOpacity>
         </View>
@@ -96,15 +96,23 @@ export function HomeScreen({ navigation }: any) {
           {recentEvents.length === 0 ? (
             <Text style={styles.emptyText}>今天还没有记录</Text>
           ) : (
-            recentEvents.map(event => (
+            recentEvents.map((event) => (
               <View key={event.id} style={styles.eventCard}>
                 <Text style={styles.eventIcon}>{EVENT_ICONS[event.type]}</Text>
                 <View style={styles.eventInfo}>
-                  <Text style={styles.eventType}>{EVENT_NAMES[event.type]}</Text>
-                  <Text style={styles.eventTime}>{formatTime(event.timestamp)}</Text>
+                  <Text style={styles.eventType}>
+                    {EVENT_NAMES[event.type]}
+                  </Text>
+                  <Text style={styles.eventTime}>
+                    {formatTime(event.timestamp)}
+                  </Text>
                   {event.feedingSide && (
                     <Text style={styles.eventDetail}>
-                      {event.feedingSide === 'left' ? '左边' : event.feedingSide === 'right' ? '右边' : '奶瓶'}
+                      {event.feedingSide === "left"
+                        ? "左边"
+                        : event.feedingSide === "right"
+                          ? "右边"
+                          : "奶瓶"}
                     </Text>
                   )}
                 </View>
@@ -116,7 +124,7 @@ export function HomeScreen({ navigation }: any) {
         {lastVoiceText && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>语音识别</Text>
-            <Text style={styles.voiceText}>"{lastVoiceText}"</Text>
+            <Text style={styles.voiceText}>&quot;{lastVoiceText}&quot;</Text>
           </View>
         )}
       </ScrollView>
@@ -125,72 +133,39 @@ export function HomeScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F7',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: '#fff',
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1C1C1E',
-  },
-  headerButtons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  headerButton: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-  },
-  headerButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '500',
-  },
   calendarButton: {
     fontSize: 20,
+  },
+  container: {
+    backgroundColor: "#F5F5F7",
+    flex: 1,
   },
   content: {
     padding: 20,
   },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1C1C1E',
-    marginBottom: 12,
-  },
   emptyText: {
+    color: "#8E8E93",
     fontSize: 16,
-    color: '#8E8E93',
-    textAlign: 'center',
     paddingVertical: 20,
+    textAlign: "center",
   },
   eventCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderRadius: 12,
-    padding: 16,
+    elevation: 2,
+    flexDirection: "row",
     marginBottom: 12,
-    shadowColor: '#000',
+    padding: 16,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
-    elevation: 2,
+  },
+  eventDetail: {
+    color: "#007AFF",
+    fontSize: 14,
+    marginTop: 4,
   },
   eventIcon: {
     fontSize: 32,
@@ -199,26 +174,59 @@ const styles = StyleSheet.create({
   eventInfo: {
     flex: 1,
   },
+  eventTime: {
+    color: "#8E8E93",
+    fontSize: 14,
+  },
   eventType: {
+    color: "#1C1C1E",
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1C1C1E',
+    fontWeight: "600",
     marginBottom: 4,
   },
-  eventTime: {
-    fontSize: 14,
-    color: '#8E8E93',
+  header: {
+    alignItems: "center",
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 16,
   },
-  eventDetail: {
+  headerButton: {
+    backgroundColor: "#007AFF",
+    borderRadius: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  headerButtonText: {
+    color: "#fff",
     fontSize: 14,
-    color: '#007AFF',
-    marginTop: 4,
+    fontWeight: "500",
+  },
+  headerButtons: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 12,
+  },
+  headerTitle: {
+    color: "#1C1C1E",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  section: {
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    color: "#1C1C1E",
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 12,
   },
   voiceText: {
-    fontSize: 16,
-    color: '#1C1C1E',
-    backgroundColor: '#fff',
-    padding: 16,
+    backgroundColor: "#fff",
     borderRadius: 12,
+    color: "#1C1C1E",
+    fontSize: 16,
+    padding: 16,
   },
 });

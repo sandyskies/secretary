@@ -1,4 +1,4 @@
-import { EventType, FeedingSide, BabyEvent } from '../types/events';
+import { EventType, FeedingSide } from "../types/events";
 
 export interface ParsedEvent {
   type: EventType;
@@ -15,59 +15,59 @@ export class VoiceParser {
     const lowerText = text.toLowerCase().trim();
 
     // Feeding related
-    if (this.containsKeywords(lowerText, ['喝奶', '喂奶', '吃奶'])) {
+    if (this.containsKeywords(lowerText, ["喝奶", "喂奶", "吃奶"])) {
       const side = this.extractFeedingSide(lowerText);
       return {
-        type: 'feeding',
+        type: "feeding",
         feedingSide: side,
         notes: text,
       };
     }
 
     // Bath
-    if (this.containsKeywords(lowerText, ['洗澡', '沐浴'])) {
+    if (this.containsKeywords(lowerText, ["洗澡", "沐浴"])) {
       return {
-        type: 'bath',
+        type: "bath",
         notes: text,
       };
     }
 
     // Poop
-    if (this.containsKeywords(lowerText, ['拉屎', '大便', '排便'])) {
+    if (this.containsKeywords(lowerText, ["拉屎", "大便", "排便"])) {
       return {
-        type: 'poop',
+        type: "poop",
         notes: text,
       };
     }
 
     // Pee
-    if (this.containsKeywords(lowerText, ['拉尿', '小便', '尿尿'])) {
+    if (this.containsKeywords(lowerText, ["拉尿", "小便", "尿尿"])) {
       return {
-        type: 'pee',
+        type: "pee",
         notes: text,
       };
     }
 
     // Diaper change
-    if (this.containsKeywords(lowerText, ['换尿布', '换尿不湿', '换纸尿裤'])) {
+    if (this.containsKeywords(lowerText, ["换尿布", "换尿不湿", "换纸尿裤"])) {
       return {
-        type: 'diaperChange',
+        type: "diaperChange",
         notes: text,
       };
     }
 
     // Sleep
-    if (this.containsKeywords(lowerText, ['睡觉', '睡觉觉', '睡了'])) {
+    if (this.containsKeywords(lowerText, ["睡觉", "睡觉觉", "睡了"])) {
       return {
-        type: 'sleep',
+        type: "sleep",
         notes: text,
       };
     }
 
     // Medication
-    if (this.containsKeywords(lowerText, ['吃药', '喂药'])) {
+    if (this.containsKeywords(lowerText, ["吃药", "喂药"])) {
       return {
-        type: 'medication',
+        type: "medication",
         notes: text,
       };
     }
@@ -75,7 +75,7 @@ export class VoiceParser {
     // Default to note
     if (text.length > 0) {
       return {
-        type: 'note',
+        type: "note",
         notes: text,
       };
     }
@@ -84,18 +84,18 @@ export class VoiceParser {
   }
 
   private static containsKeywords(text: string, keywords: string[]): boolean {
-    return keywords.some(keyword => text.includes(keyword));
+    return keywords.some((keyword) => text.includes(keyword));
   }
 
   private static extractFeedingSide(text: string): FeedingSide | undefined {
-    if (text.includes('左') && text.includes('右')) {
-      return 'bottle'; // Both sides mentioned, assume bottle
+    if (text.includes("左") && text.includes("右")) {
+      return "bottle"; // Both sides mentioned, assume bottle
     }
-    if (text.includes('左')) {
-      return 'left';
+    if (text.includes("左")) {
+      return "left";
     }
-    if (text.includes('右')) {
-      return 'right';
+    if (text.includes("右")) {
+      return "right";
     }
     return undefined;
   }
@@ -103,7 +103,10 @@ export class VoiceParser {
   /**
    * Parse using trpc-agent-go API (to be implemented)
    */
-  static async parseWithAgent(text: string, apiKey?: string): Promise<ParsedEvent | null> {
+  static async parseWithAgent(
+    text: string,
+    _apiKey?: string,
+  ): Promise<ParsedEvent | null> {
     // TODO: Integrate with trpc-agent-go API
     // https://github.com/trpc-group/trpc-agent-go
     return this.parse(text);

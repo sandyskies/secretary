@@ -1,7 +1,8 @@
 import React from 'react';
 import { AppRegistry } from 'react-native';
 import { AppNavigator } from './src/navigation/AppNavigator';
-import { name as appName } from './app.json';
+import appConfig from './app.json';
+const appName = appConfig.expo.name;
 
 export default function App() {
   return <AppNavigator />;

@@ -1,25 +1,31 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { VoiceRecordButton } from '../components/VoiceRecordButton';
-import { VoiceParser } from '../services/voiceParser';
-import { EventStorage } from '../services/eventStorage';
-import { ParsedEvent } from '../services/voiceParser';
-import { EventType } from '../types/events';
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { VoiceRecordButton } from "../components/VoiceRecordButton";
+import { VoiceParser } from "../services/voiceParser";
+import { EventStorage } from "../services/eventStorage";
+import { ParsedEvent } from "../services/voiceParser";
+import { EventType } from "../types/events";
 
 const EVENT_NAMES: Record<EventType, string> = {
-  feeding: '喝奶',
-  bath: '洗澡',
-  poop: '拉屎',
-  pee: '拉尿',
-  diaperChange: '换尿布',
-  sleep: '睡觉',
-  medication: '吃药',
-  note: '备注',
+  feeding: "喝奶",
+  bath: "洗澡",
+  poop: "拉屎",
+  pee: "拉尿",
+  diaperChange: "换尿布",
+  sleep: "睡觉",
+  medication: "吃药",
+  note: "备注",
 };
 
 export function VoiceInputScreen({ navigation }: any) {
-  const [recordingText, setRecordingText] = useState('');
+  const [recordingText, setRecordingText] = useState("");
   const [parsedEvent, setParsedEvent] = useState<ParsedEvent | null>(null);
 
   const handleRecordingComplete = async (text: string) => {
@@ -41,12 +47,12 @@ export function VoiceInputScreen({ navigation }: any) {
   };
 
   const handleSaveAnother = () => {
-    setRecordingText('');
+    setRecordingText("");
     setParsedEvent(null);
   };
 
   const handleDone = () => {
-    navigation.navigate('Home');
+    navigation.navigate("Home");
   };
 
   return (
@@ -61,16 +67,16 @@ export function VoiceInputScreen({ navigation }: any) {
 
       <ScrollView style={styles.content}>
         <View style={styles.recordingSection}>
-          <Text style={styles.instruction}>
-            长按下方按钮开始录音，松开停止
-          </Text>
+          <Text style={styles.instruction}>长按下方按钮开始录音，松开停止</Text>
 
           <VoiceRecordButton onRecordingComplete={handleRecordingComplete} />
 
           {recordingText && (
             <View style={styles.resultCard}>
               <Text style={styles.resultLabel}>识别结果</Text>
-              <Text style={styles.resultText}>"{recordingText}"</Text>
+              <Text style={styles.resultText}>
+                &ldquo;{recordingText}&rdquo;
+              </Text>
             </View>
           )}
 
@@ -78,10 +84,16 @@ export function VoiceInputScreen({ navigation }: any) {
             <View style={styles.parsedCard}>
               <Text style={styles.parsedLabel}>识别为</Text>
               <View style={styles.parsedEvent}>
-                <Text style={styles.eventTag}>#{EVENT_NAMES[parsedEvent.type]}</Text>
+                <Text style={styles.eventTag}>
+                  #{EVENT_NAMES[parsedEvent.type]}
+                </Text>
                 {parsedEvent.feedingSide && (
                   <Text style={styles.sideTag}>
-                    {parsedEvent.feedingSide === 'left' ? '左边' : parsedEvent.feedingSide === 'right' ? '右边' : '奶瓶'}
+                    {parsedEvent.feedingSide === "left"
+                      ? "左边"
+                      : parsedEvent.feedingSide === "right"
+                        ? "右边"
+                        : "奶瓶"}
                   </Text>
                 )}
                 <Text style={styles.successText}>✓ 已保存</Text>
@@ -101,7 +113,9 @@ export function VoiceInputScreen({ navigation }: any) {
                 style={[styles.button, styles.primaryButton]}
                 onPress={handleDone}
               >
-                <Text style={[styles.buttonText, styles.primaryButtonText]}>完成</Text>
+                <Text style={[styles.buttonText, styles.primaryButtonText]}>
+                  完成
+                </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -109,13 +123,27 @@ export function VoiceInputScreen({ navigation }: any) {
 
         <View style={styles.tipsSection}>
           <Text style={styles.tipsTitle}>支持的语音指令</Text>
-          <Text style={styles.tipItem}>🍼 "宝宝喝奶左边" / "右侧喂奶"</Text>
-          <Text style={styles.tipItem}>🛁 "洗个澡" / "沐浴"</Text>
-          <Text style={styles.tipItem}>💩 "拉屎了" / "大便"</Text>
-          <Text style={styles.tipItem}>💧 "拉尿" / "小便"</Text>
-          <Text style={styles.tipItem}>👶 "换尿布" / "换纸尿裤"</Text>
-          <Text style={styles.tipItem}>😴 "睡觉了" / "哄睡"</Text>
-          <Text style={styles.tipItem}>💊 "吃药了" / "喂药"</Text>
+          <Text style={styles.tipItem}>
+            🍼 &ldquo;宝宝喝奶左边&rdquo; / &ldquo;右侧喂奶&rdquo;
+          </Text>
+          <Text style={styles.tipItem}>
+            🛁 &ldquo;洗个澡&rdquo; / &ldquo;沐浴&rdquo;
+          </Text>
+          <Text style={styles.tipItem}>
+            💩 &ldquo;拉屎了&rdquo; / &ldquo;大便&rdquo;
+          </Text>
+          <Text style={styles.tipItem}>
+            💧 &ldquo;拉尿&rdquo; / &ldquo;小便&rdquo;
+          </Text>
+          <Text style={styles.tipItem}>
+            👶 &ldquo;换尿布&rdquo; / &ldquo;换纸尿裤&rdquo;
+          </Text>
+          <Text style={styles.tipItem}>
+            😴 &ldquo;睡觉了&rdquo; / &ldquo;哄睡&rdquo;
+          </Text>
+          <Text style={styles.tipItem}>
+            💊 &ldquo;吃药了&rdquo; / &ldquo;喂药&rdquo;
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -123,152 +151,152 @@ export function VoiceInputScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F7',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: '#fff',
+  actions: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 24,
+    width: "100%",
   },
   backButton: {
+    color: "#007AFF",
     fontSize: 32,
-    color: '#007AFF',
     width: 30,
   },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#1C1C1E',
+  button: {
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    flex: 1,
+    paddingVertical: 14,
+  },
+  buttonText: {
+    color: "#1C1C1E",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  container: {
+    backgroundColor: "#F5F5F7",
+    flex: 1,
   },
   content: {
     padding: 20,
   },
-  recordingSection: {
-    alignItems: 'center',
-    marginBottom: 32,
+  eventTag: {
+    backgroundColor: "#007AFF",
+    borderRadius: 8,
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "500",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  header: {
+    alignItems: "center",
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+  headerTitle: {
+    color: "#1C1C1E",
+    fontSize: 20,
+    fontWeight: "600",
   },
   instruction: {
+    color: "#8E8E93",
     fontSize: 16,
-    color: '#8E8E93',
     marginBottom: 30,
   },
-  resultCard: {
-    backgroundColor: '#fff',
+  parsedCard: {
+    backgroundColor: "#fff",
     borderRadius: 16,
+    elevation: 3,
+    marginTop: 16,
     padding: 20,
-    width: '100%',
-    marginTop: 30,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    width: "100%",
+  },
+  parsedEvent: {
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  parsedLabel: {
+    color: "#8E8E93",
+    fontSize: 14,
+    marginBottom: 12,
+  },
+  primaryButton: {
+    backgroundColor: "#007AFF",
+  },
+  primaryButtonText: {
+    color: "#fff",
+  },
+  recordingSection: {
+    alignItems: "center",
+    marginBottom: 32,
+  },
+  resultCard: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
     elevation: 3,
+    marginTop: 30,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    width: "100%",
   },
   resultLabel: {
+    color: "#8E8E93",
     fontSize: 14,
-    color: '#8E8E93',
     marginBottom: 8,
   },
   resultText: {
+    color: "#1C1C1E",
     fontSize: 18,
-    color: '#1C1C1E',
-    fontWeight: '500',
-  },
-  parsedCard: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 20,
-    width: '100%',
-    marginTop: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  parsedLabel: {
-    fontSize: 14,
-    color: '#8E8E93',
-    marginBottom: 12,
-  },
-  parsedEvent: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    alignItems: 'center',
-  },
-  eventTag: {
-    backgroundColor: '#007AFF',
-    color: '#fff',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   sideTag: {
-    backgroundColor: '#E5F1FF',
-    color: '#007AFF',
+    backgroundColor: "#E5F1FF",
+    borderRadius: 8,
+    color: "#007AFF",
+    fontSize: 14,
+    fontWeight: "500",
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 8,
-    fontSize: 14,
-    fontWeight: '500',
   },
   successText: {
-    color: '#34C759',
+    color: "#34C759",
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
   },
-  actions: {
-    flexDirection: 'row',
-    gap: 12,
-    marginTop: 24,
-    width: '100%',
-  },
-  button: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  primaryButton: {
-    backgroundColor: '#007AFF',
-  },
-  buttonText: {
-    fontSize: 16,
-    color: '#1C1C1E',
-    fontWeight: '500',
-  },
-  primaryButtonText: {
-    color: '#fff',
+  tipItem: {
+    color: "#1C1C1E",
+    fontSize: 15,
+    lineHeight: 22,
+    marginBottom: 12,
   },
   tipsSection: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 16,
+    elevation: 3,
     padding: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
   },
   tipsTitle: {
+    color: "#1C1C1E",
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1C1C1E',
+    fontWeight: "600",
     marginBottom: 16,
-  },
-  tipItem: {
-    fontSize: 15,
-    color: '#1C1C1E',
-    marginBottom: 12,
-    lineHeight: 22,
   },
 });

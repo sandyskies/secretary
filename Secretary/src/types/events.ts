@@ -1,15 +1,15 @@
 // Types for baby care events
 export type EventType =
-  | 'feeding'
-  | 'bath'
-  | 'poop'
-  | 'pee'
-  | 'diaperChange'
-  | 'sleep'
-  | 'medication'
-  | 'note';
+  | "feeding"
+  | "bath"
+  | "poop"
+  | "pee"
+  | "diaperChange"
+  | "sleep"
+  | "medication"
+  | "note";
 
-export type FeedingSide = 'left' | 'right' | 'bottle';
+export type FeedingSide = "left" | "right" | "bottle";
 
 export interface BabyEvent {
   id: string;

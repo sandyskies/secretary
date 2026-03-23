@@ -1,7 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BabyEvent, DayEvents } from '../types/events';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BabyEvent } from "../types/events";
 
-const STORAGE_KEY = 'baby_events';
+const STORAGE_KEY = "baby_events";
 
 export class EventStorage {
   static async saveEvent(event: BabyEvent): Promise<void> {
@@ -21,7 +21,7 @@ export class EventStorage {
         createdAt: new Date(e.createdAt),
       }));
     } catch (error) {
-      console.error('Error loading events:', error);
+      console.error("Error loading events:", error);
       return [];
     }
   }
@@ -30,13 +30,16 @@ export class EventStorage {
     const allEvents = await this.getAllEvents();
     const targetDate = date.toDateString();
     return allEvents.filter(
-      e => new Date(e.timestamp).toDateString() === targetDate
+      (e) => new Date(e.timestamp).toDateString() === targetDate,
     );
   }
 
-  static async getEventsByDateRange(start: Date, end: Date): Promise<BabyEvent[]> {
+  static async getEventsByDateRange(
+    start: Date,
+    end: Date,
+  ): Promise<BabyEvent[]> {
     const allEvents = await this.getAllEvents();
-    return allEvents.filter(e => {
+    return allEvents.filter((e) => {
       const eventTime = new Date(e.timestamp).getTime();
       return eventTime >= start.getTime() && eventTime <= end.getTime();
     });
@@ -44,7 +47,7 @@ export class EventStorage {
 
   static async deleteEvent(id: string): Promise<void> {
     const allEvents = await this.getAllEvents();
-    const filtered = allEvents.filter(e => e.id !== id);
+    const filtered = allEvents.filter((e) => e.id !== id);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
   }
 
