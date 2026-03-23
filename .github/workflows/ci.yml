@@ -1,3 +1,5 @@
+# CI Workflow for Secretary
+# Provides automated checks for TypeScript, ESLint, and Go (when applicable)
 name: CI
 
 on:
