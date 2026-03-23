@@ -1,4 +1,4 @@
-import Audio from 'expo-av';
+import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 
 export class VoiceService {
@@ -45,7 +45,7 @@ export class VoiceService {
 
     // Read audio file and convert to base64 for API
     const base64 = await FileSystem.readAsStringAsync(uri, {
-      encoding: FileSystem.EncodingType.Base64,
+      encoding: 'base64',
     });
 
     // Clean up the temp file
