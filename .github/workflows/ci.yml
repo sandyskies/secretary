@@ -4,9 +4,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   nodejs:
@@ -65,7 +65,8 @@ jobs:
 
   #     - name: Run golint
   #       run: |
-  #         go install golang.org/x/lint/golint@latest || echo "golint install failed, skipping"
+  #         go install golang.org/x/lint/golint@latest || \
+  #           echo "golint install failed, skipping"
   #         golint ./... || echo "golint check completed"
 
   #     - name: Run go build
